@@ -1,6 +1,6 @@
 <?php
 
-namespace Warkhosh\Menu;
+namespace Warkhosh\Menu\Item;
 
 class BaseItemSourceService
 {

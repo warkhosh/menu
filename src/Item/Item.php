@@ -1,8 +1,8 @@
 <?php
 
-namespace Warkhosh\Menu;
+namespace Warkhosh\Menu\Item;
 
-class AppItem
+class Item
 {
     /**
      * @var ItemRepositoryInterface
@@ -20,12 +20,12 @@ class AppItem
     protected $entities = [];
 
     /**
-     * @param int $id
+     * @param int $menuId
      * @return array
      */
-    public function getItems(int $id)
+    public function getItems(int $menuId)
     {
-        return $this->repository->getItems($id);
+        return $this->repository->getItemsForMenu($menuId);
     }
 
     /**
