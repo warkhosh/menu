@@ -2,7 +2,7 @@
 
 namespace Warkhosh\Menu;
 
-class BaseOption
+class ItemOption
 {
 
 }

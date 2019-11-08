@@ -2,13 +2,16 @@
 
 namespace Warkhosh\Menu;
 
-interface RepositoryInterface
+class ItemRepository implements ItemRepositoryInterface
 {
     /**
      * @param int $id
      * @return array
      */
-    public function getMenuItems(int $id);
+    public function getItems(int $id)
+    {
+        return [];
+    }
 
     /**
      * Getting entity values
@@ -17,5 +20,8 @@ interface RepositoryInterface
      * @param array $ids - list of specific identifiers in entities
      * @return array
      */
-    public function getEntities(int $entityId, array $ids = []);
+    public function getEntities(int $entityId, array $ids = [])
+    {
+        return [];
+    }
 }
