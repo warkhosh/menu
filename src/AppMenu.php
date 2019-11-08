@@ -24,6 +24,15 @@ class AppMenu
     }
 
     /**
+     * @param int $id
+     * @return array
+     */
+    public function getMenuItems(int $id)
+    {
+        return $this->repository->getMenuItems($id);
+    }
+
+    /**
      * @param RepositoryInterface $repository
      * @return void
      */
