@@ -2,7 +2,7 @@
 
 namespace Warkhosh\Menu;
 
-class ItemSourceService
+class BaseItemSourceService
 {
 
 }

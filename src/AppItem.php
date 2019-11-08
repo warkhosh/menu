@@ -2,7 +2,7 @@
 
 namespace Warkhosh\Menu;
 
-class Item
+class AppItem
 {
     /**
      * @var ItemRepositoryInterface

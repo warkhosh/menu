@@ -2,7 +2,7 @@
 
 namespace Warkhosh\Menu;
 
-class ItemRepository implements ItemRepositoryInterface
+class BaseItemRepository implements ItemRepositoryInterface
 {
     /**
      * @param int $id
