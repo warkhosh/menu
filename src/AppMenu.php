@@ -4,6 +4,7 @@ namespace Warkhosh\Menu;
 
 use Exception;
 use Warkhosh\Menu\Entity\EntityRepositoryInterface;
+use Warkhosh\Menu\Entity\EntitySourceServiceInterface;
 use Warkhosh\Menu\Item\ItemRepositoryInterface;
 use Warkhosh\Menu\Item\ItemSourceServiceInterface;
 
@@ -25,6 +26,11 @@ class AppMenu
     protected $itemSourceService;
 
     /**
+     * @var EntitySourceServiceInterface
+     */
+    protected $entitySourceService;
+
+    /**
      * @return $this
      */
     static public function init()
@@ -42,6 +48,8 @@ class AppMenu
         try {
             $this->installItemRepository(\Warkhosh\Menu\Item\BaseItemRepository::class);
             $this->installEntityRepository(\Warkhosh\Menu\Entity\BaseEntityRepository::class);
+            $this->installItemSourceService(\Warkhosh\Menu\Item\BaseItemSourceService::class);
+            $this->installEntitySourceService(\Warkhosh\Menu\Entity\BaseEntitySourceService::class);
 
         } catch (Exception $e) {
             //throw new $e;
@@ -57,7 +65,8 @@ class AppMenu
     public function getValues(int $menuId)
     {
         $items = $this->itemRepository->getItemsForMenu($menuId);
-        $entities = $this->entityRepository->getEntityValues($this->itemSourceService->getEntitiesFromItems($items));
+        $entities = $this->itemSourceService->getEntitiesFromItems($items);
+        $entityItems = $this->entitySourceService->getEntityForItem($entities);
 
         return $items;
     }
@@ -113,12 +122,12 @@ class AppMenu
     }
 
     /**
-     * @param ItemSourceServiceInterface $sourceService
+     * @param ItemSourceServiceInterface $service
      * @return void
      */
-    public function setSourceService(ItemSourceServiceInterface $sourceService)
+    public function setItemSourceService(ItemSourceServiceInterface $service)
     {
-        $this->itemSourceService = $sourceService;
+        $this->itemSourceService = $service;
     }
 
     /**
@@ -126,13 +135,38 @@ class AppMenu
      * @return $this
      * @throws Exception
      */
-    public function installSourceService(string $className)
+    public function installItemSourceService(string $className)
     {
-        if (!  ($sourceService = new $className()) instanceof ItemSourceServiceInterface) {
+        if (!  ($service = new $className()) instanceof ItemSourceServiceInterface) {
             throw new Exception("Class does not inherit interface ItemSourceServiceInterface");
         }
 
-        $this->itemSourceService = $sourceService;
+        $this->itemSourceService = $service;
+
+        return $this;
+    }
+
+    /**
+     * @param EntitySourceServiceInterface $service
+     * @return void
+     */
+    public function setEntitySourceService(EntitySourceServiceInterface $service)
+    {
+        $this->entitySourceService = $service;
+    }
+
+    /**
+     * @param string $className
+     * @return $this
+     * @throws Exception
+     */
+    public function installEntitySourceService(string $className)
+    {
+        if (!  ($service = new $className()) instanceof EntitySourceServiceInterface) {
+            throw new Exception("Class does not inherit interface EntitySourceServiceInterface");
+        }
+
+        $this->entitySourceService = $service;
 
         return $this;
     }

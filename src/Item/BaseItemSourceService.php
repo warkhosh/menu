@@ -2,7 +2,7 @@
 
 namespace Warkhosh\Menu\Item;
 
-class BaseItemSourceService
+class BaseItemSourceService implements ItemSourceServiceInterface
 {
     /**
      * Retrieving Entity Values from a item List
