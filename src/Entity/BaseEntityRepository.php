@@ -18,10 +18,10 @@ class BaseEntityRepository implements EntityRepositoryInterface
     /**
      * Getting Active entities
      *
-     * @param int $entityId
+     * @param array $entityIds
      * @return array
      */
-    public function getEntities(int $entityId)
+    public function getEntities(array $entityIds)
     {
         return [];
     }
@@ -29,10 +29,10 @@ class BaseEntityRepository implements EntityRepositoryInterface
     /**
      * Getting all entities
      *
-     * @param int $entityId
+     * @param array $entityIds
      * @return array
      */
-    public function getAllEntities(int $entityId)
+    public function getAllEntities(array $entityIds)
     {
         return [];
     }

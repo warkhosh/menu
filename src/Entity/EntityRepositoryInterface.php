@@ -15,16 +15,16 @@ interface EntityRepositoryInterface
     /**
      * Getting Active entities
      *
-     * @param int $entityId
+     * @param array $entityIds
      * @return array
      */
-    public function getEntities(int $entityId);
+    public function getEntities(array $entityIds);
 
     /**
      * Getting all entities
      *
-     * @param int $entityId
+     * @param array $entityIds
      * @return array
      */
-    public function getAllEntities(int $entityId);
+    public function getAllEntities(array $entityIds);
 }

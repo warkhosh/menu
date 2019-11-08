@@ -2,7 +2,7 @@
 
 namespace Warkhosh\Menu\Item;
 
-class BaseItemSourceService
+interface ItemSourceServiceInterface
 {
     /**
      * Retrieving Entity Values from a item List
@@ -10,8 +10,5 @@ class BaseItemSourceService
      * @param array $items
      * @return array
      */
-    public function getEntitiesFromItems(array $items)
-    {
-        return [];
-    }
+    public function getEntitiesFromItems(array $items);
 }
