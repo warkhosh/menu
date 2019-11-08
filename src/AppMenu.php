@@ -25,13 +25,39 @@ class AppMenu
     protected $itemSourceService;
 
     /**
+     * @return $this
+     */
+    static public function init()
+    {
+        return new static();
+    }
+
+    /**
+     * Install
+     *
+     * @return $this
+     */
+    public function install()
+    {
+        try {
+            $this->installItemRepository(\Warkhosh\Menu\Item\BaseItemRepository::class);
+            $this->installEntityRepository(\Warkhosh\Menu\Entity\BaseEntityRepository::class);
+
+        } catch (Exception $e) {
+            //throw new $e;
+        }
+
+        return $this;
+    }
+
+    /**
      * @param int $menuId
      * @return array
      */
     public function getValues(int $menuId)
     {
         $items = $this->itemRepository->getItemsForMenu($menuId);
-        $entities = $this->entityRepository->getEntities($this->itemSourceService->getEntitiesFromItems($items));
+        $entities = $this->entityRepository->getEntityValues($this->itemSourceService->getEntitiesFromItems($items));
 
         return $items;
     }
@@ -40,7 +66,7 @@ class AppMenu
      * @param ItemRepositoryInterface $repository
      * @return void
      */
-    public function setRepository(ItemRepositoryInterface $repository)
+    public function setItemRepository(ItemRepositoryInterface $repository)
     {
         $this->itemRepository = $repository;
     }
@@ -50,13 +76,13 @@ class AppMenu
      * @return $this
      * @throws Exception
      */
-    public function installRepository(string $className)
+    public function installItemRepository(string $className)
     {
-        if (! $className instanceof ItemRepositoryInterface) {
+        if (! ($repository = new $className()) instanceof ItemRepositoryInterface) {
             throw new Exception("Class does not inherit interface ItemRepositoryInterface");
         }
 
-        $this->itemRepository = new $className();
+        $this->itemRepository = $repository;
 
         return $this;
     }
@@ -77,11 +103,11 @@ class AppMenu
      */
     public function installEntityRepository(string $className)
     {
-        if (! $className instanceof EntityRepositoryInterface) {
+        if (! ($repository = new $className()) instanceof EntityRepositoryInterface) {
             throw new Exception("Class does not inherit interface EntityRepositoryInterface");
         }
 
-        $this->entityRepository = new $className();
+        $this->entityRepository = $repository;
 
         return $this;
     }
@@ -102,11 +128,11 @@ class AppMenu
      */
     public function installSourceService(string $className)
     {
-        if (! $className instanceof ItemSourceServiceInterface) {
+        if (!  ($sourceService = new $className()) instanceof ItemSourceServiceInterface) {
             throw new Exception("Class does not inherit interface ItemSourceServiceInterface");
         }
 
-        $this->itemSourceService = new $className();
+        $this->itemSourceService = $sourceService;
 
         return $this;
     }
