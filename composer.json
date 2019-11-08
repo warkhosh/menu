@@ -1,0 +1,34 @@
+{
+  "name": "warkhosh/menu",
+  "type": "library",
+  "description": "Репозиторий для хранения скелета меню",
+  "keywords": [
+    "php",
+    "basic",
+    "class",
+    "menu"
+  ],
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "support": {
+    "email": "ekv.programmer@gmail.com"
+  },
+  "authors": [
+    {
+      "name": "Konstantin Egorov",
+      "email": "ekv.programmer@gmail.com"
+    }
+  ],
+  "repositories": [
+  ],
+  "require": {
+    "php": ">=7.1.16"
+  },
+  "autoload": {
+    "psr-4": {
+      "Warkhosh\\Menu\\": ""
+    },
+    "files": [
+    ]
+  }
+}
