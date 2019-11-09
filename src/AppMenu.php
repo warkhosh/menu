@@ -5,6 +5,7 @@ namespace Warkhosh\Menu;
 use Exception;
 use Warkhosh\Menu\Entity\EntityRepositoryInterface;
 use Warkhosh\Menu\Entity\EntitySourceServiceInterface;
+use Warkhosh\Menu\Item\BaseItemHelper;
 use Warkhosh\Menu\Item\ItemRepositoryInterface;
 use Warkhosh\Menu\Item\ItemSourceServiceInterface;
 
@@ -60,13 +61,29 @@ class AppMenu
 
     /**
      * @param int $menuId
+     * @param int $level
      * @return array
      */
-    public function getValues(int $menuId)
+    public function getMenu(int $menuId, $level)
     {
         $items = $this->itemRepository->getItemsForMenu($menuId);
+        $items = BaseItemHelper::getSequentialTree($items, 'id', $level);
+
         $entities = $this->itemSourceService->getEntitiesFromItems($items);
         $entityItems = $this->entitySourceService->getEntityForItem($entities);
+        $items = $this->itemSourceService->getAddedEntityForItemList($items, $entityItems);
+
+        return $items;
+    }
+
+    public function getMenuTree(int $menuId)
+    {
+        $items = $this->itemRepository->getItemsForMenu($menuId);
+        $items = BaseItemHelper::getSequentialTree($items, 'id', null);
+
+        $entities = $this->itemSourceService->getEntitiesFromItems($items);
+        $entityItems = $this->entitySourceService->getEntityForItem($entities);
+        $items = $this->itemSourceService->getAddedEntityForItemList($items, $entityItems);
 
         return $items;
     }
@@ -137,7 +154,7 @@ class AppMenu
      */
     public function installItemSourceService(string $className)
     {
-        if (!  ($service = new $className()) instanceof ItemSourceServiceInterface) {
+        if (! ($service = new $className()) instanceof ItemSourceServiceInterface) {
             throw new Exception("Class does not inherit interface ItemSourceServiceInterface");
         }
 
@@ -162,7 +179,7 @@ class AppMenu
      */
     public function installEntitySourceService(string $className)
     {
-        if (!  ($service = new $className()) instanceof EntitySourceServiceInterface) {
+        if (! ($service = new $className()) instanceof EntitySourceServiceInterface) {
             throw new Exception("Class does not inherit interface EntitySourceServiceInterface");
         }
 

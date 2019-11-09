@@ -11,4 +11,11 @@ interface ItemSourceServiceInterface
      * @return array
      */
     public function getEntitiesFromItems(array $items);
+
+    /**
+     * @param array $items
+     * @param array $entityItems
+     * @return array
+     */
+    public function getAddedEntityForItemList(array $items, array $entityItems);
 }

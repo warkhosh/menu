@@ -14,4 +14,16 @@ class BaseItemSourceService implements ItemSourceServiceInterface
     {
         return [];
     }
+
+    /**
+     * Adding values from entities to the specified menu list
+     *
+     * @param array $items
+     * @param array $entityItems
+     * @return array
+     */
+    public function getAddedEntityForItemList(array $items, array $entityItems)
+    {
+        return [];
+    }
 }
