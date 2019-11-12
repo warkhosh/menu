@@ -104,7 +104,9 @@ class AppMenu
      */
     public function installItemRepository(string $className)
     {
-        if (! ($repository = new $className()) instanceof ItemRepositoryInterface) {
+        $repository = method_exists($className, 'getInstance') ? $className::getInstance() : new $className();
+
+        if (! $repository instanceof ItemRepositoryInterface) {
             throw new Exception("Class does not inherit interface ItemRepositoryInterface");
         }
 
@@ -129,7 +131,9 @@ class AppMenu
      */
     public function installEntityRepository(string $className)
     {
-        if (! ($repository = new $className()) instanceof EntityRepositoryInterface) {
+        $repository = method_exists($className, 'getInstance') ? $className::getInstance() : new $className();
+
+        if (! $repository instanceof EntityRepositoryInterface) {
             throw new Exception("Class does not inherit interface EntityRepositoryInterface");
         }
 
@@ -154,7 +158,9 @@ class AppMenu
      */
     public function installItemSourceService(string $className)
     {
-        if (! ($service = new $className()) instanceof ItemSourceServiceInterface) {
+        $service = method_exists($className, 'getInstance') ? $className::getInstance() : new $className();
+
+        if (!$service instanceof ItemSourceServiceInterface) {
             throw new Exception("Class does not inherit interface ItemSourceServiceInterface");
         }
 
@@ -179,7 +185,9 @@ class AppMenu
      */
     public function installEntitySourceService(string $className)
     {
-        if (! ($service = new $className()) instanceof EntitySourceServiceInterface) {
+        $service = method_exists($className, 'getInstance') ? $className::getInstance() : new $className();
+
+        if (! $service instanceof EntitySourceServiceInterface) {
             throw new Exception("Class does not inherit interface EntitySourceServiceInterface");
         }
 
