@@ -15,10 +15,11 @@ class BaseItemService implements ItemServiceInterface
     }
 
     /**
+     * @param int $menuId
      * @param int $id
      * @return \ArrayObject
      */
-    public function destroyItem(int $id)
+    public function destroyItem(int $menuId, int $id)
     {
         return new \ArrayObject();
     }

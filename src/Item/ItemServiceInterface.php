@@ -12,8 +12,9 @@ interface ItemServiceInterface
     public function saveItem(int $id, array $data = []);
 
     /**
+     * @param int $menuId
      * @param int $id
      * @return \ArrayObject
      */
-    public function destroyItem(int $id);
+    public function destroyItem(int $menuId, int $id);
 }
