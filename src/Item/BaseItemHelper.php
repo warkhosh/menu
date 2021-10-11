@@ -28,7 +28,7 @@ class BaseItemHelper
 
             $tree = static::getSequentialListOfChildItems($level = 0, 0, $children, $items);
 
-            if ($specificLevel >= 0) {
+            if (! is_null($specificLevel) && $specificLevel >= 0) {
                 $specificItems = [];
 
                 foreach ($tree as $item) {
