@@ -22,11 +22,14 @@
   "repositories": [
   ],
   "require": {
-    "php": ">=7.1.16"
+    "php": "^8.0 || ^8.2"
+  },
+  "require-dev": {
+    "laravel/pint": "^1.13"
   },
   "autoload": {
     "psr-4": {
-      "Warkhosh\\Menu\\": ""
+      "Warkhosh\\Menu\\": "src"
     },
     "files": [
     ]
