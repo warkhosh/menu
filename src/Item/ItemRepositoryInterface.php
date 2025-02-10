@@ -10,7 +10,7 @@ interface ItemRepositoryInterface
      * @param int $id
      * @return array
      */
-    public function getItem(int $id);
+    public function getItem(int $id): array;
 
     /**
      * Getting active items For Menu
@@ -18,7 +18,7 @@ interface ItemRepositoryInterface
      * @param int $menuId
      * @return array
      */
-    public function getItemsForMenu(int $menuId);
+    public function getItemsForMenu(int $menuId): array;
 
     /**
      * Getting all items For Menu
@@ -26,5 +26,5 @@ interface ItemRepositoryInterface
      * @param int $menuId
      * @return array
      */
-    public function getAllItemsForMenu(int $menuId);
+    public function getAllItemsForMenu(int $menuId): array;
 }

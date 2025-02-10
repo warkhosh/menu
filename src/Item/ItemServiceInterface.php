@@ -5,16 +5,16 @@ namespace Warkhosh\Menu\Item;
 interface ItemServiceInterface
 {
     /**
-     * @param int   $id
+     * @param int $id
      * @param array $data
-     * @return \ArrayObject
+     * @return array
      */
-    public function saveItem(int $id, array $data = []);
+    public function saveItem(int $id, array $data = []): array;
 
     /**
      * @param int $menuId
      * @param int $id
-     * @return \ArrayObject
+     * @return array
      */
-    public function destroyItem(int $menuId, int $id);
+    public function destroyItem(int $menuId, int $id): array;
 }

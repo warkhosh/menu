@@ -5,21 +5,21 @@ namespace Warkhosh\Menu\Entity;
 class BaseEntityService implements EntityServiceInterface
 {
     /**
-     * @param int   $id
+     * @param int $id
      * @param array $data
-     * @return \ArrayObject
+     * @return array
      */
-    public function saveEntity(int $id, array $data = [])
+    public function saveEntity(int $id, array $data = []): array
     {
-        return new \ArrayObject();
+        return [];
     }
 
     /**
      * @param int $id
-     * @return \ArrayObject
+     * @return array
      */
-    public function destroyEntity(int $id)
+    public function destroyEntity(int $id): array
     {
-        return new \ArrayObject();
+        return [];
     }
 }

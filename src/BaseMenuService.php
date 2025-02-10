@@ -5,21 +5,21 @@ namespace Warkhosh\Menu;
 class BaseMenuService implements MenuServiceInterface
 {
     /**
-     * @param int   $id
+     * @param int $id
      * @param array $data
-     * @return \ArrayObject
+     * @return array
      */
-    public function saveMenu(int $id, array $data = [])
+    public function saveMenu(int $id, array $data = []): array
     {
-        return new \ArrayObject();
+        return [];
     }
 
     /**
      * @param int $id
-     * @return \ArrayObject
+     * @return array
      */
-    public function destroyMenu(int $id)
+    public function destroyMenu(int $id): array
     {
-        return new \ArrayObject();
+        return [];
     }
 }

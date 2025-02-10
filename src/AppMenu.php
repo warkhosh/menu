@@ -14,27 +14,27 @@ class AppMenu
     /**
      * @var ItemRepositoryInterface
      */
-    protected $itemRepository;
+    protected ItemRepositoryInterface $itemRepository;
 
     /**
      * @var EntityRepositoryInterface
      */
-    protected $entityRepository;
+    protected EntityRepositoryInterface $entityRepository;
 
     /**
      * @var ItemSourceServiceInterface
      */
-    protected $itemSourceService;
+    protected ItemSourceServiceInterface $itemSourceService;
 
     /**
      * @var EntitySourceServiceInterface
      */
-    protected $entitySourceService;
+    protected EntitySourceServiceInterface $entitySourceService;
 
     /**
      * @return $this
      */
-    static public function init()
+    public static function init(): static
     {
         return new static();
     }
@@ -44,16 +44,15 @@ class AppMenu
      *
      * @return $this
      */
-    public function install()
+    public function install(): static
     {
         try {
             $this->installItemRepository(\Warkhosh\Menu\Item\BaseItemRepository::class);
             $this->installEntityRepository(\Warkhosh\Menu\Entity\BaseEntityRepository::class);
             $this->installItemSourceService(\Warkhosh\Menu\Item\BaseItemSourceService::class);
             $this->installEntitySourceService(\Warkhosh\Menu\Entity\BaseEntitySourceService::class);
-
         } catch (Exception $e) {
-            //throw new $e;
+            // Logs...
         }
 
         return $this;
@@ -64,35 +63,33 @@ class AppMenu
      * @param int $level
      * @return array
      */
-    public function getMenu(int $menuId, $level)
+    public function getMenu(int $menuId, int $level): array
     {
         $items = $this->itemRepository->getItemsForMenu($menuId);
         $items = BaseItemHelper::getSequentialTree($items, 'id', $level);
 
         $entities = $this->itemSourceService->getEntitiesFromItems($items);
         $entityItems = $this->entitySourceService->getEntityForItem($entities);
-        $items = $this->itemSourceService->getAddedEntityForItemList($items, $entityItems);
 
-        return $items;
+        return $this->itemSourceService->getAddedEntityForItemList($items, $entityItems);
     }
 
-    public function getMenuTree(int $menuId)
+    public function getMenuTree(int $menuId): array
     {
         $items = $this->itemRepository->getItemsForMenu($menuId);
         $items = BaseItemHelper::getSequentialTree($items, 'id', null);
 
         $entities = $this->itemSourceService->getEntitiesFromItems($items);
         $entityItems = $this->entitySourceService->getEntityForItem($entities);
-        $items = $this->itemSourceService->getAddedEntityForItemList($items, $entityItems);
 
-        return $items;
+        return $this->itemSourceService->getAddedEntityForItemList($items, $entityItems);
     }
 
     /**
      * @param ItemRepositoryInterface $repository
      * @return void
      */
-    public function setItemRepository(ItemRepositoryInterface $repository)
+    public function setItemRepository(ItemRepositoryInterface $repository): void
     {
         $this->itemRepository = $repository;
     }
@@ -102,7 +99,7 @@ class AppMenu
      * @return $this
      * @throws Exception
      */
-    public function installItemRepository(string $className)
+    public function installItemRepository(string $className): static
     {
         $repository = method_exists($className, 'getInstance') ? $className::getInstance() : new $className();
 
@@ -119,7 +116,7 @@ class AppMenu
      * @param EntityRepositoryInterface $repository
      * @return void
      */
-    public function setEntityRepository(EntityRepositoryInterface $repository)
+    public function setEntityRepository(EntityRepositoryInterface $repository): void
     {
         $this->entityRepository = $repository;
     }
@@ -129,7 +126,7 @@ class AppMenu
      * @return $this
      * @throws Exception
      */
-    public function installEntityRepository(string $className)
+    public function installEntityRepository(string $className): static
     {
         $repository = method_exists($className, 'getInstance') ? $className::getInstance() : new $className();
 
@@ -146,7 +143,7 @@ class AppMenu
      * @param ItemSourceServiceInterface $service
      * @return void
      */
-    public function setItemSourceService(ItemSourceServiceInterface $service)
+    public function setItemSourceService(ItemSourceServiceInterface $service): void
     {
         $this->itemSourceService = $service;
     }
@@ -156,11 +153,11 @@ class AppMenu
      * @return $this
      * @throws Exception
      */
-    public function installItemSourceService(string $className)
+    public function installItemSourceService(string $className): static
     {
         $service = method_exists($className, 'getInstance') ? $className::getInstance() : new $className();
 
-        if (!$service instanceof ItemSourceServiceInterface) {
+        if (! $service instanceof ItemSourceServiceInterface) {
             throw new Exception("Class does not inherit interface ItemSourceServiceInterface");
         }
 
@@ -173,7 +170,7 @@ class AppMenu
      * @param EntitySourceServiceInterface $service
      * @return void
      */
-    public function setEntitySourceService(EntitySourceServiceInterface $service)
+    public function setEntitySourceService(EntitySourceServiceInterface $service): void
     {
         $this->entitySourceService = $service;
     }
@@ -183,7 +180,7 @@ class AppMenu
      * @return $this
      * @throws Exception
      */
-    public function installEntitySourceService(string $className)
+    public function installEntitySourceService(string $className): static
     {
         $service = method_exists($className, 'getInstance') ? $className::getInstance() : new $className();
 

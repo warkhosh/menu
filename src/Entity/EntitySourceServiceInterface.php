@@ -10,5 +10,5 @@ interface EntitySourceServiceInterface
      * @param array $entityIds
      * @return array
      */
-    public function getEntityForItem(array $entityIds);
+    public function getEntityForItem(array $entityIds): array;
 }

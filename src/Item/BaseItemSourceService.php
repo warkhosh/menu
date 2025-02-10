@@ -10,7 +10,7 @@ class BaseItemSourceService implements ItemSourceServiceInterface
      * @param array $items
      * @return array
      */
-    public function getEntitiesFromItems(array $items)
+    public function getEntitiesFromItems(array $items): array
     {
         return [];
     }
@@ -22,7 +22,7 @@ class BaseItemSourceService implements ItemSourceServiceInterface
      * @param array $entityItems
      * @return array
      */
-    public function getAddedEntityForItemList(array $items, array $entityItems)
+    public function getAddedEntityForItemList(array $items, array $entityItems): array
     {
         return [];
     }

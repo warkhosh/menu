@@ -7,38 +7,39 @@ class BaseItemHelper
     /**
      * Returns a sequential tree
      *
-     * @param array    $itemList
-     * @param string   $primaryKey
+     * @param array $itemList
+     * @param string $primaryKey
      * @param int|null $specificLevel
      * @return array
      */
-    static public function getSequentialTree(array $itemList, $primaryKey = 'id', int $specificLevel = null)
-    {
+    public static function getSequentialTree(
+        array $itemList,
+        string $primaryKey = 'id',
+        int $specificLevel = null
+    ): array {
         $tree = [];
 
-        if (is_array($itemList)) {
-            $children = $items = [];
+        $children = $items = [];
 
-            foreach ($itemList as $key => $item) {
-                $children[$item['parent_id']][] = $item[$primaryKey];
-                $items[$item[$primaryKey]] = $item;
-            }
+        foreach ($itemList as $key => $item) {
+            $children[$item['parent_id']][] = $item[$primaryKey];
+            $items[$item[$primaryKey]] = $item;
+        }
 
-            unset($itemList);
+        unset($itemList);
 
-            $tree = static::getSequentialListOfChildItems($level = 0, 0, $children, $items);
+        $tree = static::getSequentialListOfChildItems(0, 0, $children, $items);
 
-            if (! is_null($specificLevel) && $specificLevel >= 0) {
-                $specificItems = [];
+        if (! is_null($specificLevel) && $specificLevel >= 0) {
+            $specificItems = [];
 
-                foreach ($tree as $item) {
-                    if ($item['level'] === $specificLevel) {
-                        $specificItems[] = $item;
-                    }
+            foreach ($tree as $item) {
+                if ($item['level'] === $specificLevel) {
+                    $specificItems[] = $item;
                 }
-
-                $tree = $specificItems;
             }
+
+            $tree = $specificItems;
         }
 
         return $tree;
@@ -47,18 +48,18 @@ class BaseItemHelper
     /**
      * Returns a sequential list of child values
      *
-     * @param int   $level
-     * @param int   $parentId
+     * @param int $level
+     * @param int $parentId
      * @param array $children
      * @param array $items
      * @return array
      */
-    static public function getSequentialListOfChildItems(
+    public static function getSequentialListOfChildItems(
         int $level = 0,
         int $parentId = 0,
         array $children = [],
         array $items = []
-    ) {
+    ): array {
         $tree = [];
 
         if (key_exists($parentId, $children)) {

@@ -10,7 +10,7 @@ interface EntityRepositoryInterface
      * @param int $entityId
      * @return array
      */
-    public function getEntity(int $entityId);
+    public function getEntity(int $entityId): array;
 
     /**
      * Getting Active entities
@@ -18,7 +18,7 @@ interface EntityRepositoryInterface
      * @param array $entityIds
      * @return array
      */
-    public function getEntityValues(array $entityIds);
+    public function getEntityValues(array $entityIds): array;
 
     /**
      * Getting all entities
@@ -26,5 +26,5 @@ interface EntityRepositoryInterface
      * @param array $entityIds
      * @return array
      */
-    public function getAllEntityValues(array $entityIds);
+    public function getAllEntityValues(array $entityIds): array;
 }

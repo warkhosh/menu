@@ -4,5 +4,4 @@ namespace Warkhosh\Menu;
 
 interface MenuSourceServiceInterface
 {
-
 }

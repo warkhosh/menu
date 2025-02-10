@@ -5,22 +5,22 @@ namespace Warkhosh\Menu\Item;
 class BaseItemService implements ItemServiceInterface
 {
     /**
-     * @param int   $id
+     * @param int $id
      * @param array $data
-     * @return \ArrayObject
+     * @return array
      */
-    public function saveItem(int $id, array $data = [])
+    public function saveItem(int $id, array $data = []): array
     {
-        return new \ArrayObject();
+        return [];
     }
 
     /**
      * @param int $menuId
      * @param int $id
-     * @return \ArrayObject
+     * @return array
      */
-    public function destroyItem(int $menuId, int $id)
+    public function destroyItem(int $menuId, int $id): array
     {
-        return new \ArrayObject();
+        return [];
     }
 }
