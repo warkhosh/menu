@@ -17,7 +17,7 @@ class BaseItemHelper
     public static function getSequentialTree(
         array $itemList,
         string $primaryKey = 'id',
-        int $specificLevel = null
+        ?int $specificLevel = null
     ): array {
         $children = $items = [];
 
