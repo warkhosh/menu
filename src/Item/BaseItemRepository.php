@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Warkhosh\Menu\Item;
 
 class BaseItemRepository implements ItemRepositoryInterface

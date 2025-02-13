@@ -5,7 +5,7 @@ namespace Warkhosh\Menu\Item;
 interface ItemSourceServiceInterface
 {
     /**
-     * Retrieving Entity Values from a item List
+     * Получение списка сущностей присутствующих в пунктах меню
      *
      * @param array $items
      * @return array
@@ -13,9 +13,11 @@ interface ItemSourceServiceInterface
     public function getEntitiesFromItems(array $items): array;
 
     /**
+     * Добавление значений из сущностей в указанный список меню
+     *
      * @param array $items
-     * @param array $entityItems
+     * @param array $groupedByTypeEntityList
      * @return array
      */
-    public function getAddedEntityForItemList(array $items, array $entityItems): array;
+    public function getAddedEntityForItemList(array $items, array $groupedByTypeEntityList): array;
 }

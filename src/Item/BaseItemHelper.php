@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Warkhosh\Menu\Item;
 
 class BaseItemHelper
@@ -9,7 +11,7 @@ class BaseItemHelper
      *
      * @param array $itemList
      * @param string $primaryKey
-     * @param int|null $specificLevel
+     * @param int|null $specificLevel уровень пунктов для меню
      * @return array
      */
     public static function getSequentialTree(
@@ -17,11 +19,9 @@ class BaseItemHelper
         string $primaryKey = 'id',
         int $specificLevel = null
     ): array {
-        $tree = [];
-
         $children = $items = [];
 
-        foreach ($itemList as $key => $item) {
+        foreach ($itemList as $item) {
             $children[$item['parent_id']][] = $item[$primaryKey];
             $items[$item[$primaryKey]] = $item;
         }

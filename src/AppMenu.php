@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Warkhosh\Menu;
 
 use Exception;
@@ -31,6 +33,18 @@ class AppMenu
      */
     protected EntitySourceServiceInterface $entitySourceService;
 
+    public function __construct()
+    {
+        try {
+            $this->installItemRepository(\Warkhosh\Menu\Item\BaseItemRepository::class);
+            //$this->installEntityRepository(\Warkhosh\Menu\Entity\BaseEntityRepository::class);
+            $this->installItemSourceService(\Warkhosh\Menu\Item\BaseItemSourceService::class);
+            $this->installEntitySourceService(\Warkhosh\Menu\Entity\BaseEntitySourceService::class);
+        } catch (Exception $e) {
+            // Logs...
+        }
+    }
+
     /**
      * @return $this
      */
@@ -43,58 +57,42 @@ class AppMenu
      * Install
      *
      * @return $this
+     * @deprecated все процессы теперь через контроллер!
      */
     public function install(): static
     {
-        try {
-            $this->installItemRepository(\Warkhosh\Menu\Item\BaseItemRepository::class);
-            $this->installEntityRepository(\Warkhosh\Menu\Entity\BaseEntityRepository::class);
-            $this->installItemSourceService(\Warkhosh\Menu\Item\BaseItemSourceService::class);
-            $this->installEntitySourceService(\Warkhosh\Menu\Entity\BaseEntitySourceService::class);
-        } catch (Exception $e) {
-            // Logs...
-        }
-
         return $this;
     }
 
     /**
+     * Возвращает список пунктов для меню
+     *
      * @param int $menuId
-     * @param int $level
+     * @param int|null $level уровень пунктов для меню
      * @return array
      */
-    public function getMenu(int $menuId, int $level): array
+    public function getMenu(int $menuId, int $level = null): array
     {
+        // Получение активных элементов в указанном меню
         $items = $this->itemRepository->getItemsForMenu($menuId);
         $items = BaseItemHelper::getSequentialTree($items, 'id', $level);
+        $entities = [];
 
-        $entities = $this->itemSourceService->getEntitiesFromItems($items);
+        // Установка списка сущностей для пунктов меню (с группировкой по типу)
+        foreach ($this->itemSourceService->getEntitiesFromItems($items) as $entity) {
+            $entities[$entity['type']][$entity['id']] = $entity['id'];
+        }
+
+        // Получение значений самих сущностей
         $entityItems = $this->entitySourceService->getEntityForItem($entities);
 
-        return $this->itemSourceService->getAddedEntityForItemList($items, $entityItems);
-    }
-
-    public function getMenuTree(int $menuId): array
-    {
-        $items = $this->itemRepository->getItemsForMenu($menuId);
-        $items = BaseItemHelper::getSequentialTree($items, 'id', null);
-
-        $entities = $this->itemSourceService->getEntitiesFromItems($items);
-        $entityItems = $this->entitySourceService->getEntityForItem($entities);
-
+        // Добавление значений из сущностей в указанный список меню
         return $this->itemSourceService->getAddedEntityForItemList($items, $entityItems);
     }
 
     /**
-     * @param ItemRepositoryInterface $repository
-     * @return void
-     */
-    public function setItemRepository(ItemRepositoryInterface $repository): void
-    {
-        $this->itemRepository = $repository;
-    }
-
-    /**
+     * Метод установки репозитория для получения пунктов меню
+     *
      * @param string $className
      * @return $this
      * @throws Exception
@@ -113,20 +111,13 @@ class AppMenu
     }
 
     /**
-     * @param EntityRepositoryInterface $repository
-     * @return void
-     */
-    public function setEntityRepository(EntityRepositoryInterface $repository): void
-    {
-        $this->entityRepository = $repository;
-    }
-
-    /**
+     * Метод установки репозитория для получения сущностей меню
+     *
      * @param string $className
      * @return $this
      * @throws Exception
      */
-    public function installEntityRepository(string $className): static
+    protected function installEntityRepository(string $className): static
     {
         $repository = method_exists($className, 'getInstance') ? $className::getInstance() : new $className();
 
@@ -140,15 +131,8 @@ class AppMenu
     }
 
     /**
-     * @param ItemSourceServiceInterface $service
-     * @return void
-     */
-    public function setItemSourceService(ItemSourceServiceInterface $service): void
-    {
-        $this->itemSourceService = $service;
-    }
-
-    /**
+     * Метод установки сервиса для алгоритмов при работе с пунктами меню
+     *
      * @param string $className
      * @return $this
      * @throws Exception
@@ -167,15 +151,8 @@ class AppMenu
     }
 
     /**
-     * @param EntitySourceServiceInterface $service
-     * @return void
-     */
-    public function setEntitySourceService(EntitySourceServiceInterface $service): void
-    {
-        $this->entitySourceService = $service;
-    }
-
-    /**
+     * Метод установки сервиса для алгоритмов при работе с сущностями
+     *
      * @param string $className
      * @return $this
      * @throws Exception
