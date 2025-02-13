@@ -22,7 +22,7 @@ class BaseItemHelper
         $children = $items = [];
 
         foreach ($itemList as $item) {
-            $children[$item['parent_id']][] = $item[$primaryKey];
+            $children[$item['parent_id']][] = (int)$item[$primaryKey];
             $items[$item[$primaryKey]] = $item;
         }
 
