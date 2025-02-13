@@ -91,7 +91,7 @@ class AppMenu
      * @param int|null $level уровень пунктов для меню
      * @return array
      */
-    public function getMenu(int $menuId, int $level = null): array
+    public function getMenu(int $menuId, ?int $level = null): array
     {
         // Получение активных элементов в указанном меню
         $items = $this->itemRepository->getItemsForMenu($menuId);
