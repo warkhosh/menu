@@ -33,15 +33,15 @@ class AppMenu
      */
     protected EntitySourceServiceInterface $entitySourceService;
 
+    /**
+     * Конструктор
+     *
+     * @throws Exception
+     */
     public function __construct()
     {
-        try {
-            $this->installItemRepository(\Warkhosh\Menu\Item\BaseItemRepository::class);
-            //$this->installEntityRepository(\Warkhosh\Menu\Entity\BaseEntityRepository::class);
-            $this->installItemSourceService(\Warkhosh\Menu\Item\BaseItemSourceService::class);
-            $this->installEntitySourceService(\Warkhosh\Menu\Entity\BaseEntitySourceService::class);
-        } catch (Exception $e) {
-            // Logs...
+        if (is_string($result = $this->install())) {
+            throw new Exception($result);
         }
     }
 
@@ -54,14 +54,24 @@ class AppMenu
     }
 
     /**
-     * Install
+     * Метод объявления репозиториев и сервисов
      *
-     * @return $this
-     * @deprecated все процессы теперь через контроллер!
+     * @bote предназначен для переопределения в наследниках
+     *
+     * @return bool|string
      */
-    public function install(): static
+    protected function install(): bool|string
     {
-        return $this;
+        try {
+            $this->itemRepository = new \Warkhosh\Menu\Item\BaseItemRepository();
+            $this->entityRepository = new \Warkhosh\Menu\Entity\BaseEntityRepository();
+            $this->itemSourceService = new \Warkhosh\Menu\Item\BaseItemSourceService();
+            $this->entitySourceService = new \Warkhosh\Menu\Entity\BaseEntitySourceService();
+
+            return true;
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
 
     /**
