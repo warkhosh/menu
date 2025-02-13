@@ -7,7 +7,7 @@ namespace Warkhosh\Menu\Item;
 class BaseItemHelper
 {
     /**
-     * Returns a sequential tree
+     * Возвращает последовательный список дочерних значений
      *
      * @param array $itemList
      * @param string $primaryKey
@@ -28,6 +28,7 @@ class BaseItemHelper
 
         unset($itemList);
 
+        // Строит плоское дерево из пунктов которые имеют вложенность через поле `parent_id`
         $tree = static::getSequentialListOfChildItems(0, 0, $children, $items);
 
         if (! is_null($specificLevel) && $specificLevel >= 0) {
