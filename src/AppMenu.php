@@ -4,31 +4,39 @@ declare(strict_types=1);
 
 namespace Warkhosh\Menu;
 
-use Exception;
 use Warkhosh\Menu\Entity\EntityRepositoryInterface;
 use Warkhosh\Menu\Entity\EntitySourceServiceInterface;
 use Warkhosh\Menu\Item\BaseItemHelper;
 use Warkhosh\Menu\Item\ItemRepositoryInterface;
 use Warkhosh\Menu\Item\ItemSourceServiceInterface;
+use Exception;
 
 class AppMenu
 {
     /**
+     * Репозиторий для получения пунктов меню
+     *
      * @var ItemRepositoryInterface
      */
     protected ItemRepositoryInterface $itemRepository;
 
     /**
+     * Репозиторий для получения сущностей меню
+     *
      * @var EntityRepositoryInterface
      */
     protected EntityRepositoryInterface $entityRepository;
 
     /**
+     * Сервис для алгоритмов при работе с пунктами меню
+     *
      * @var ItemSourceServiceInterface
      */
     protected ItemSourceServiceInterface $itemSourceService;
 
     /**
+     * Сервис для алгоритмов при работе с сущностями
+     *
      * @var EntitySourceServiceInterface
      */
     protected EntitySourceServiceInterface $entitySourceService;
@@ -46,6 +54,8 @@ class AppMenu
     }
 
     /**
+     * Метод для статичного получения экземпляра класса (если вам лень делать фасад)
+     *
      * @return $this
      */
     public static function init(): static
@@ -98,85 +108,5 @@ class AppMenu
 
         // Добавление значений из сущностей в указанный список меню
         return $this->itemSourceService->getAddedEntityForItemList($items, $entityItems);
-    }
-
-    /**
-     * Метод установки репозитория для получения пунктов меню
-     *
-     * @param string $className
-     * @return $this
-     * @throws Exception
-     */
-    public function installItemRepository(string $className): static
-    {
-        $repository = method_exists($className, 'getInstance') ? $className::getInstance() : new $className();
-
-        if (! $repository instanceof ItemRepositoryInterface) {
-            throw new Exception("Class does not inherit interface ItemRepositoryInterface");
-        }
-
-        $this->itemRepository = $repository;
-
-        return $this;
-    }
-
-    /**
-     * Метод установки репозитория для получения сущностей меню
-     *
-     * @param string $className
-     * @return $this
-     * @throws Exception
-     */
-    protected function installEntityRepository(string $className): static
-    {
-        $repository = method_exists($className, 'getInstance') ? $className::getInstance() : new $className();
-
-        if (! $repository instanceof EntityRepositoryInterface) {
-            throw new Exception("Class does not inherit interface EntityRepositoryInterface");
-        }
-
-        $this->entityRepository = $repository;
-
-        return $this;
-    }
-
-    /**
-     * Метод установки сервиса для алгоритмов при работе с пунктами меню
-     *
-     * @param string $className
-     * @return $this
-     * @throws Exception
-     */
-    public function installItemSourceService(string $className): static
-    {
-        $service = method_exists($className, 'getInstance') ? $className::getInstance() : new $className();
-
-        if (! $service instanceof ItemSourceServiceInterface) {
-            throw new Exception("Class does not inherit interface ItemSourceServiceInterface");
-        }
-
-        $this->itemSourceService = $service;
-
-        return $this;
-    }
-
-    /**
-     * Метод установки сервиса для алгоритмов при работе с сущностями
-     *
-     * @param string $className
-     * @return $this
-     * @throws Exception
-     */
-    public function installEntitySourceService(string $className): static
-    {
-        $service = method_exists($className, 'getInstance') ? $className::getInstance() : new $className();
-
-        if (! $service instanceof EntitySourceServiceInterface) {
-            throw new Exception("Class does not inherit interface EntitySourceServiceInterface");
-        }
-
-        $this->entitySourceService = $service;
-
-        return $this;
     }
 }
